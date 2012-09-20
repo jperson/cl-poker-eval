@@ -30,8 +30,8 @@
     (declare (type fixnum tc-mask xormask))
     (the fixnum 
       (+ (handtype-topcard-value handval-twopair (get-top-card mask))
-	 (handval-second-card-value xormask)
-	 (handval-third-card-value (get-top-card (logxor hranks tc-mask (the fixnum (ash 1 xormask)))))))))
+	     (handval-second-card-value xormask)
+	     (handval-third-card-value (get-top-card (logxor hranks tc-mask (the fixnum (ash 1 xormask)))))))))
 
 (defun eval-trips (three-mask ranks)
   (declare (optimize (speed 3) (safety 0) (debug 0)))

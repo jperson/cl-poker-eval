@@ -52,80 +52,54 @@
   (the fixnum (ash hv handval-handtype-shift)))
 
 (defun handval-cards (hv)
-  (declare
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum hv))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum hv))
   (logand hv (- handval-cards-mask)))
 
 (defun handval-top-card (hv)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum hv))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum hv))
   (logand (the fixnum (ash hv (- handval-top-card-shift)))  handval-card-mask))
 
 (defun handval-second-card (hv)
-  (declare
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum hv))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum hv))
   (logand (ash hv (- handval-second-card-shift)) handval-card-mask))
 
 (defun handval-third-card (hv)
-  (declare
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum hv))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum hv))
   (logand (ash hv (- handval-third-card-shift)) handval-card-mask))
 
 (defun handval-fourth-card (hv)
-  (declare
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum hv))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum hv))
   (logand (ash hv (- handval-fourth-card-shift)) handval-card-mask))
 
-(defun handval-fifthh-card (hv)
-  (declare
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum hv))
+(defun handval-fifth-card (hv)
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum hv))
   (logand (ash hv (- handval-fifth-card-shift)) handval-card-mask))
 
 (defun handval-handtype-value (ht)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum ht))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum ht))
   (the fixnum (ash ht (the fixnum handval-handtype-shift))))
 
 (defun handval-top-card-value (c)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum c))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum c))
   (the fixnum (ash c (the fixnum handval-top-card-shift))))
 
 (defun handval-second-card-value (c)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum c))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum c))
   (the fixnum (ash c (the fixnum handval-second-card-shift))))
 
 (defun handval-third-card-value (c)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum c))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum c))
   (the fixnum (ash c (the fixnum handval-third-card-shift))))
 
 (defun handval-fourth-card-value (c)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum c))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum c))
   (the fixnum (ash c (the fixnum handval-fourth-card-shift))))
 
 (defun handval-fifth-card-value (c)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum c))
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum c))
   (the fixnum (ash c (the fixnum handval-fifth-card-shift))))
 
 (defun get-top-card (mask)
-  (declare 
-   (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum mask)
+  (declare (optimize (speed 3) (safety 0) (debug 0)) (type fixnum mask)
    (type (simple-array fixnum (8192)) top-card-tbl))
  (aref top-card-tbl mask))
