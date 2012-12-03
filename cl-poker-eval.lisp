@@ -120,4 +120,5 @@
   (declare (optimize (speed 3) (safety 0) (debug 0)))
   (multiple-value-bind (ss sh sd sc) (apply #'make-cards-masks cards)
     (eval-hand (length cards) ss sh sc sd)))
+
            
