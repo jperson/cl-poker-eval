@@ -26,6 +26,8 @@
 ;; either expressed or implied, of the FreeBSD Project.
 
 (defpackage #:cl-poker-eval
- (:use :cl :asdf)
- (:export #:eval-hand-var)
+ (:use #:cl #:asdf)
+ (:export #:eval-hand-var
+          #:eval-hand-7
+          )
  (:documentation "Provides interface for evaluating 7-card poker hands"))
