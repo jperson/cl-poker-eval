@@ -27,7 +27,9 @@
 
 ;;;; cl-poker-eval.asd
 (asdf:defsystem #:cl-poker-eval
-  :author "JRP"
+  :author "Jason Person"
+  :license "BSD"
+  :description "7-card hand poker evaluator"
   :version "0.1"
   :components ((:file "package")
                (:file "cl-poker-eval"   :depends-on ("package" "poker-defs" "straight-tbl" "hands"))
