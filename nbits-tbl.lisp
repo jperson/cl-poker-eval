@@ -27,7 +27,7 @@
 
 (in-package #:cl-poker-eval)
 
-(defvar nbits-tbl (make-array 8192 :element-type 'fixnum :initial-contents '(    
+(defvar *nbits-tbl* (make-array 8192 :element-type 'fixnum :initial-contents '(    
      #x00 #x01 #x01 #x02 #x01 #x02 #x02 #x03 #x01 #x02 #x02 #x03 #x02 #x03 #x03 #x04 #x01 #x02 #x02 #x03 
      #x02 #x03 #x03 #x04 #x02 #x03 #x03 #x04 #x03 #x04 #x04 #x05 #x01 #x02 #x02 #x03 #x02 #x03 #x03 #x04 
      #x02 #x03 #x03 #x04 #x03 #x04 #x04 #x05 #x02 #x03 #x03 #x04 #x03 #x04 #x04 #x05 #x03 #x04 #x04 #x05 

@@ -27,7 +27,7 @@
 
 (in-package #:cl-poker-eval)
 
-(defvar straight-table (make-array 8192 :element-type 'fixnum :initial-contents '(
+(defvar *straight-table* (make-array 8192 :element-type 'fixnum :initial-contents '(
      #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00
      #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x04 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00
      #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00 #x00

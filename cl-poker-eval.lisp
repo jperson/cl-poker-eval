@@ -38,11 +38,11 @@
 (defun eval-twopair (mask hranks)
   (declare 
    (optimize (speed 3) (safety 0) (debug 0))
-   (type fixnum mask hranks handval-top-card-mask handval-second-card-mask)
-   (type (simple-array fixnum (8192)) top-five-cards-tbl))
+   (type fixnum mask hranks +handval-top-card-mask+ +handval-second-card-mask+)
+   (type (simple-array fixnum (8192)) *top-five-cards-tbl*))
   (the fixnum 
-    (+ (handval-handtype-value handval-twopair)
-       (logand (aref top-five-cards-tbl mask) (logior handval-top-card-mask handval-second-card-mask))
+    (+ (handval-handtype-value +handval-twopair+)
+       (logand (aref *top-five-cards-tbl* mask) (logior +handval-top-card-mask+ +handval-second-card-mask+))
        (handval-third-card-value (get-top-card (logxor hranks mask))))))
 
 (defmacro handtype-topcard-value (hv tpc)
@@ -56,7 +56,7 @@
      (xormask (get-top-card (logxor mask tc-mask))))
     (declare (type fixnum tc-mask xormask))
     (the fixnum 
-      (+ (handtype-topcard-value handval-twopair (get-top-card mask))
+      (+ (handtype-topcard-value +handval-twopair+ (get-top-card mask))
          (handval-second-card-value xormask)
          (handval-third-card-value (get-top-card (logxor hranks tc-mask (the fixnum (ash 1 xormask)))))))))
 
@@ -66,7 +66,7 @@
      (3cv (get-top-card (logxor ranks three-mask (the fixnum (ash 1 2cv))))))
     (declare (type fixnum 2cv 3cv))
     (the fixnum 
-      (+ (handtype-topcard-value handval-trips (get-top-card three-mask))
+      (+ (handtype-topcard-value +handval-trips+ (get-top-card three-mask))
      (handval-second-card-value 2cv)
      (handval-third-card-value 3cv)))))
 
@@ -74,42 +74,42 @@
   (declare (optimize (speed 3) (safety 0) (debug 0)))
   (let ((top-card (get-top-card mask1)))
     (the fixnum 
-      (+ (handtype-topcard-value handval-fullhouse top-card)
+      (+ (handtype-topcard-value +handval-fullhouse+ top-card)
      (handval-second-card-value (get-top-card (logxor (logior mask1 mask2) (the fixnum (ash 1 top-card)))))))))
 
 
 (defun eval-quads (mask hranks)
   (declare (optimize (speed 3) (safety 0) (debug 0)))
   (the fixnum 
-    (+ (handtype-topcard-value handval-quads (get-top-card mask))
+    (+ (handtype-topcard-value +handval-quads+ (get-top-card mask))
        (handval-second-card-value (get-top-card (logxor hranks (the fixnum (ash 1 (get-top-card mask)))))))))
 
 (defmacro str-strflush-value (dups rank &rest suit-masks)
   `(cond
      ,@(loop for sm in suit-masks append
         (list `((> (logcount (the (unsigned-byte 32) ,sm)) 4)
-            (let ((st (the fixnum (aref straight-table ,sm))))
+            (let ((st (the fixnum (aref *straight-table* ,sm))))
               (if (> st 0)
               (return-from eval-hand
-                (the fixnum (+ (handval-handtype-value handval-stflush) (handval-top-card-value st))))
+                (the fixnum (+ (handval-handtype-value +handval-stflush+) (handval-top-card-value st))))
               (if (< ,dups 3)
-                  (the fixnum (+ (handval-handtype-value handval-flush) (aref top-five-cards-tbl st)))))))) into v finally (return v))
-     ((> (aref straight-table ,rank) 0) 
-      (return-from eval-hand (the fixnum (+ (handval-handtype-value handval-straight) (handval-top-card-value (the fixnum (aref straight-table ,rank)))))))))
+                  (the fixnum (+ (handval-handtype-value +handval-flush+) (aref *top-five-cards-tbl* st)))))))) into v finally (return v))
+     ((> (aref *straight-table* ,rank) 0) 
+      (return-from eval-hand (the fixnum (+ (handval-handtype-value +handval-straight+) (handval-top-card-value (the fixnum (aref *straight-table* ,rank)))))))))
 
 (defun eval-hand (n-cards ss sh sc sd)
   (declare 
    (optimize (speed 3) (safety 0) (debug 0))
    (type fixnum n-cards ss sh sc sd)
-   (type (simple-array fixnum (8192)) nbits-tbl))
+   (type (simple-array fixnum (8192)) *nbits-tbl*))
   (let* ((ranks (the fixnum (logior ss sh sd sc)))
-     (n-ranks (the fixnum (aref nbits-tbl ranks)))
+     (n-ranks (the fixnum (aref *nbits-tbl* ranks)))
      (n-dups (the fixnum (- n-cards n-ranks))))
     (declare 
      (type fixnum ranks n-ranks n-dups)
-     (type (simple-array fixnum (8192)) straight-table)
-     (type (simple-array fixnum (8192)) top-five-cards-tbl)
-     (type (simple-array fixnum (8192)) top-card-tbl))
+     (type (simple-array fixnum (8192)) *straight-table*)
+     (type (simple-array fixnum (8192)) *top-five-cards-tbl*)
+     (type (simple-array fixnum (8192)) *top-card-tbl*))
     (if (>= n-ranks 5)
         (str-strflush-value n-dups ranks ss sh sc sd))
     (let ((two-mask (the fixnum (logxor ranks (logxor sc sd sh ss)))))
@@ -117,10 +117,10 @@
       (return-from eval-hand
     (case n-dups
       (0
-       (the fixnum (+ (handval-handtype-value handval-nopair) (aref top-five-cards-tbl ranks))))
+       (the fixnum (+ (handval-handtype-value +handval-nopair+) (aref *top-five-cards-tbl* ranks))))
       (1 
-       (let ((retval (the fixnum (+ (handval-handtype-value handval-onepair) (handval-top-card-value (get-top-card two-mask)))))
-         (kickers (logand (the fixnum (ash (aref top-five-cards-tbl (logxor ranks two-mask))  (- handval-card-width))) (lognot handval-fifth-card-mask))))
+       (let ((retval (the fixnum (+ (handval-handtype-value +handval-onepair+) (handval-top-card-value (get-top-card two-mask)))))
+         (kickers (logand (the fixnum (ash (aref *top-five-cards-tbl* (logxor ranks two-mask))  (- handval-card-width))) (lognot +handval-fifth-card-mask+))))
          (declare (type fixnum retval kickers))
          (the fixnum (+  retval kickers))))
       (2 
@@ -134,7 +134,7 @@
          (declare (type fixnum four-mask)) 
          (if (not (= four-mask 0))
          (eval-quads four-mask ranks)
-         (if (not (= (the fixnum (aref nbits-tbl two-mask)) n-dups))
+         (if (not (= (the fixnum (aref *nbits-tbl* two-mask)) n-dups))
              (eval-fullhouse (the fixnum (logand (logior (logand sc sd) (logand sh ss)) (logior (logand sc sh) (logand sd ss)))) two-mask)
              (eval-twopair-2 two-mask ranks))))))))))
 
@@ -147,5 +147,3 @@
   (declare (optimize (speed 3) (safety 0) (debug 0)))
   (multiple-value-bind (ss sh sd sc) (apply #'make-cards-masks cards)
     (eval-hand (length cards) ss sh sc sd)))
-
-           

@@ -27,7 +27,7 @@
 
 (in-package #:cl-poker-eval)
 
-(defvar top-five-cards-tbl (make-array 8192 :element-type 'fixnum :initial-contents '(
+(defvar *top-five-cards-tbl* (make-array 8192 :element-type 'fixnum :initial-contents '(
     #x00000000 #x00000000 #x00010000 #x00010000 #x00020000 #x00020000 #x00021000 #x00021000 #x00030000 #x00030000
     #x00031000 #x00031000 #x00032000 #x00032000 #x00032100 #x00032100 #x00040000 #x00040000 #x00041000 #x00041000
     #x00042000 #x00042000 #x00042100 #x00042100 #x00043000 #x00043000 #x00043100 #x00043100 #x00043200 #x00043200
