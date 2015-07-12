@@ -3,6 +3,11 @@ cl-poker-eval
 
 Pure common lisp 7 card poker hand evaluation.  Evaluation based on pokersource.  
 
+Loadable via quicklisp.
+```cl
+* (ql:quickload "cl-poker-eval")
+```
+
 cl-poker-eval uses the following enumeration for card values: 
 ```
 2c-Ac = 0-12  
